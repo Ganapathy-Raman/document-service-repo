@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.rts.tap.constants.APIConstants;
@@ -54,8 +55,8 @@ public class ResumeBankController {
         return resumeData;
     }
 
-    @PutMapping(path = APIConstants.UPDATE_RESUME_BY_ID)
-    public String updateResumeById(@PathVariable String resumeId, @RequestParam("candidateResume") MultipartFile candidateresume) {
+    @PutMapping(path = APIConstants.UPDATE_RESUME_BY_ID,consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String updateResumeById(@RequestParam String resumeId, @RequestPart("candidateResume") MultipartFile candidateresume) {
         logger.info(MessageConstants.UPDATING_RESUME_BY_ID, resumeId);
         String response = resumeBankService.updateResumeById(resumeId, candidateresume);
         logger.info(MessageConstants.RESUME_UPDATED_SUCCESSFULLY, resumeId);
